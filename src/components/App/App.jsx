@@ -9,16 +9,26 @@ import { Wrapper } from './app.styled';
 
 export class App extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '4591256' },
-      { id: 'id-2', name: 'Hermione Kline', number: '4438912' },
-      { id: 'id-3', name: 'Eden Clements', number: '6451779' },
-      { id: 'id-4', name: 'Annie Copeland', number: '2279126' },
-    ],
+    contacts: [],
     filter: '',
     name: '',
     number: '',
   };
+  // localStor = [];
+  componentDidMount() {
+    // this.localStor = JSON.parse(localStorage.getItem('contacts'));
+
+    if (JSON.parse(localStorage.getItem('contacts'))) {
+      this.setState({
+        contacts: JSON.parse(localStorage.getItem('contacts')),
+      });
+    }
+  }
+
+  componentDidUpdate() {
+    localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+  }
+
   addContact = cont => {
     this.setState(prevState => {
       cont.id = nanoid();
